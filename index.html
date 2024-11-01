@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Day 1 - Points - 30 Days November Challenge</title> 
+  <meta name="viewport" content="width=device-width, 
+    initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <!-- Leaflet JS -->
+  <script src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  
+  <style>
+        body {
+        padding: 0;
+        margin: 0;
+            }
+        html, body, #map {
+        height: 95%;
+        width: 100%;
+                        }
+        h2,p {
+            font-family: Arial, sans-serif; /* Change to your desired font */
+            background-color: rgba(255, 246, 243, 0.651); /* color with 50% opacity */
+            text-align: center; /* Centered text */}
+            p {
+            font-size: 14px; /* Set the desired font size */
+        }
+            
+
+  </style>
+
+</head>
+<body>
+<h2>Healthcare Facilites in Dehradun City, Uttarakhand, India</h2>
+<div id = "map"></div>
+<p>Data Source - OpenStreetMap, Map by Soujanya Pisipati</p>
+
+<script>
+//Setting lat, long and zoom level
+var lat = 30.324;
+var lng = 78.041;
+
+//Initialize the map
+let map = L.map("map", {center: [lat, lng], zoom: 12});
+//Adding a base map
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  maxZoom:16,
+  attribution:
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+}).addTo(map)
+
+fetch("data/Hospitals-Deh.geojson")
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(data) {
+        L.geoJSON(data).bindPopup(function (layer) {
+    return layer.feature.properties.name;}).addTo(map);
+    });
+
+</script>
+</body>
+
+
+</html>
